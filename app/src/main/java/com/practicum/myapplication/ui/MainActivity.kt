@@ -5,7 +5,12 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -16,17 +21,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.practicum.myapplication.R
 import com.practicum.myapplication.ui.item.MenuItem
+import com.practicum.myapplication.ui.theme.PlaylistTheme
+
+private val MainBackgroundColor = Color(0xFF2563EB)
+
+data class MainMenuItem(
+    val iconRes: Int,
+    val title: String,
+    val action: MainMenuAction
+)
+
+enum class MainMenuAction {
+    SEARCH,
+    PLAYLISTS,
+    FAVORITES,
+    SETTINGS
+}
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            MaterialTheme {
+            PlaylistTheme {
                 PlaylistHost()
             }
         }
@@ -39,47 +60,99 @@ fun MainScreen(
     onNavigateToSettings: () -> Unit
 ) {
     val context = LocalContext.current
-    Column(modifier = Modifier.fillMaxSize().background(Color(0xFF3772E7))) {
+
+    val menuItems = listOf(
+        MainMenuItem(
+            iconRes = R.drawable.search,
+            title = "Поиск",
+            action = MainMenuAction.SEARCH
+        ),
+        MainMenuItem(
+            iconRes = R.drawable.library,
+            title = "Плейлисты",
+            action = MainMenuAction.PLAYLISTS
+        ),
+        MainMenuItem(
+            iconRes = R.drawable.favorite_border,
+            title = "Избранное",
+            action = MainMenuAction.FAVORITES
+        ),
+        MainMenuItem(
+            iconRes = R.drawable.settings,
+            title = "Настройки",
+            action = MainMenuAction.SETTINGS
+        )
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MainBackgroundColor)
+    ) {
+
         Text(
-            text = "Playlist maker",
+            text = "Playlist Maker",
             color = Color.White,
-            fontSize = 26.sp,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.padding(start = 16.dp, top = 14.dp, bottom = 16.dp)
+            style = MaterialTheme.typography.headlineLarge,
+            modifier = Modifier.padding(
+                start = 20.dp,
+                top = 18.dp,
+                bottom = 20.dp
+            )
         )
 
         Column(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-                .background(color = Color.White)
+                .clip(
+                    RoundedCornerShape(
+                        topStart = 24.dp,
+                        topEnd = 24.dp
+                    )
+                )
+                .background(Color.White)
         ) {
-            Spacer(modifier = Modifier.height(8.dp))
+
+            Spacer(modifier = Modifier.height(12.dp))
+
             Card(
-                modifier = Modifier.padding(horizontal = 16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White),
-                elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+                modifier = Modifier.padding(horizontal = 20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 0.dp
+                )
             ) {
-                MenuItem(
-                    iconRes = R.drawable.search,
-                    title = "Поиск"
-                ) { onNavigateToSearch() }
+                menuItems.forEach { item ->
+                    MenuItem(
+                        iconRes = item.iconRes,
+                        title = item.title
+                    ) {
+                        when (item.action) {
+                            MainMenuAction.SEARCH -> onNavigateToSearch()
 
-                MenuItem(
-                    iconRes = R.drawable.library,
-                    title = "Плейлисты"
-                ) { Toast.makeText(context, "Нажата кнопка \"Плейлисты\"", Toast.LENGTH_SHORT).show() }
+                            MainMenuAction.PLAYLISTS -> {
+                                Toast.makeText(
+                                    context,
+                                    "Раздел «Плейлисты» пока в разработке",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                MenuItem(
-                    iconRes = R.drawable.favorite_border,
-                    title = "Избранное"
-                ) { Toast.makeText(context, "Нажата кнопка \"Избранное\"", Toast.LENGTH_SHORT).show() }
+                            MainMenuAction.FAVORITES -> {
+                                Toast.makeText(
+                                    context,
+                                    "Раздел «Избранное» пока в разработке",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
 
-                MenuItem(
-                    iconRes = R.drawable.settings,
-                    title = "Настройки"
-                ) { onNavigateToSettings() }
+                            MainMenuAction.SETTINGS -> onNavigateToSettings()
+                        }
+                    }
+                }
             }
         }
     }
