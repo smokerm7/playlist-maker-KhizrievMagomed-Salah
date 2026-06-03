@@ -28,13 +28,13 @@ import com.practicum.myapplication.ui.theme.PlaylistTheme
 
 private val MainBackgroundColor = Color(0xFF2563EB)
 
-data class MainMenuItem(
+private data class MainMenuItem(
     val iconRes: Int,
     val title: String,
     val action: MainMenuAction
 )
 
-enum class MainMenuAction {
+private enum class MainMenuAction {
     SEARCH,
     PLAYLISTS,
     FAVORITES,
@@ -89,7 +89,6 @@ fun MainScreen(
             .fillMaxSize()
             .background(MainBackgroundColor)
     ) {
-
         Text(
             text = "Playlist Maker",
             color = Color.White,
@@ -113,7 +112,6 @@ fun MainScreen(
                 )
                 .background(Color.White)
         ) {
-
             Spacer(modifier = Modifier.height(12.dp))
 
             Card(
@@ -136,7 +134,7 @@ fun MainScreen(
                             MainMenuAction.PLAYLISTS -> {
                                 Toast.makeText(
                                     context,
-                                    "Раздел «Плейлисты» пока в разработке",
+                                    "Нажата кнопка \"Плейлисты\"",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -144,7 +142,7 @@ fun MainScreen(
                             MainMenuAction.FAVORITES -> {
                                 Toast.makeText(
                                     context,
-                                    "Раздел «Избранное» пока в разработке",
+                                    "Нажата кнопка \"Избранное\"",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             }
@@ -156,4 +154,5 @@ fun MainScreen(
             }
         }
     }
+}
 }
