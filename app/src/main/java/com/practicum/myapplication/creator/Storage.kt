@@ -3,66 +3,70 @@ package com.practicum.myapplication.creator
 import com.practicum.myapplication.data.dto.TrackDto
 
 class Storage {
+
     private val listTracks = listOf(
         TrackDto(
-            trackName = "Владивосток 2000",
-            artistName = "Мумий Троль",
-            trackTimeMillis = 158000
+            trackName = "По барам",
+            artistName = "ANNA ASTI",
+            trackTimeMillis = 220000
         ),
         TrackDto(
-            trackName = "Группа крови",
-            artistName = "Кино",
-            trackTimeMillis = 283000
+            trackName = "Медляк",
+            artistName = "JONY",
+            trackTimeMillis = 185000
         ),
         TrackDto(
-            trackName = "Не смотри назад",
-            artistName = "Ария",
-            trackTimeMillis = 312000
+            trackName = "Птичка",
+            artistName = "MiyaGi & Эндшпиль",
+            trackTimeMillis = 258000
         ),
         TrackDto(
-            trackName = "Звезда по имени Солнце",
-            artistName = "Кино",
-            trackTimeMillis = 225000
+            trackName = "Кукла",
+            artistName = "XOLIDAYBOY",
+            trackTimeMillis = 194000
         ),
         TrackDto(
-            trackName = "Лондон",
-            artistName = "Аквариум",
-            trackTimeMillis = 272000
+            trackName = "Никаких больше вечеринок",
+            artistName = "Cream Soda",
+            trackTimeMillis = 242000
         ),
         TrackDto(
-            trackName = "На заре",
-            artistName = "Альянс",
-            trackTimeMillis = 230000
+            trackName = "Зари",
+            artistName = "MONA",
+            trackTimeMillis = 201000
         ),
         TrackDto(
-            trackName = "Перемен",
-            artistName = "Кино",
-            trackTimeMillis = 296000
+            trackName = "Юность",
+            artistName = "Dabro",
+            trackTimeMillis = 221000
         ),
         TrackDto(
-            trackName = "Розовый фламинго",
-            artistName = "Сплин",
-            trackTimeMillis = 195000
+            trackName = "Седая ночь",
+            artistName = "Моя Мишель",
+            trackTimeMillis = 214000
         ),
         TrackDto(
-            trackName = "Танцевать",
-            artistName = "Мельница",
-            trackTimeMillis = 222000
+            trackName = "Венера-Юпитер",
+            artistName = "Ваня Дмитриенко",
+            trackTimeMillis = 178000
         ),
         TrackDto(
-            trackName = "Чёрный бумер",
-            artistName = "Серега",
-            trackTimeMillis = 241000
+            trackName = "Дежавю",
+            artistName = "Mary Gu",
+            trackTimeMillis = 205000
         )
     )
 
     fun search(request: String): List<TrackDto> {
-        val result = listTracks.filter {
-            it.trackName
-                .lowercase()
-                .contains(request.lowercase())
-            it.artistName.lowercase().contains(request.lowercase())
+        val query = request.trim().lowercase()
+
+        if (query.isEmpty()) {
+            return emptyList()
         }
-        return result
+
+        return listTracks.filter { track ->
+            track.trackName.lowercase().contains(query) ||
+            track.artistName.lowercase().contains(query)
+        }
     }
 }
