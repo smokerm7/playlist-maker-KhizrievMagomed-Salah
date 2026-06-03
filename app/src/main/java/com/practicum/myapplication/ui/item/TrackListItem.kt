@@ -21,25 +21,29 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.practicum.myapplication.R
-import com.practicum.myapplication.data.network.Track
+import com.practicum.myapplication.domain.model.Track
+
+private val TrackTitleColor = Color(0xFF111827)
+private val TrackSubtitleColor = Color(0xFF6B7280)
+private val TrackArrowColor = Color(0xFF9CA3AF)
 
 @Composable
 fun TrackListItem(track: Track) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp),
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_music),
             contentDescription = "Обложка трека ${track.trackName}",
             modifier = Modifier
-                .size(56.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .size(58.dp)
+                .clip(RoundedCornerShape(10.dp))
         )
 
-        Spacer(modifier = Modifier.width(12.dp))
+        Spacer(modifier = Modifier.width(14.dp))
 
         Column(
             modifier = Modifier.weight(1f)
@@ -47,15 +51,15 @@ fun TrackListItem(track: Track) {
             Text(
                 text = track.trackName,
                 fontWeight = FontWeight.SemiBold,
-                fontSize = 16.sp,
-                color = Color(0xFF1A1B22),
+                fontSize = 17.sp,
+                color = TrackTitleColor,
                 maxLines = 1
             )
 
             Text(
                 text = "${track.artistName} • ${track.trackTime}",
-                fontSize = 11.sp,
-                color = Color(0xFF7A7C81),
+                fontSize = 12.sp,
+                color = TrackSubtitleColor,
                 maxLines = 1
             )
         }
@@ -63,8 +67,8 @@ fun TrackListItem(track: Track) {
         Icon(
             painter = painterResource(id = R.drawable.chevron_right),
             contentDescription = null,
-            tint = Color(0xFFAEAFB4),
-            modifier = Modifier.size(20.dp)
+            tint = TrackArrowColor,
+            modifier = Modifier.size(22.dp)
         )
     }
 }
