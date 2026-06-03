@@ -1,3 +1,5 @@
 package com.practicum.myapplication.data.dto
 
-class TracksSearchResponse(val results: List<TrackDto>) : BaseResponse()
+data class TracksSearchResponse(
+    val results: List<TrackDto>
+) : BaseResponse()
