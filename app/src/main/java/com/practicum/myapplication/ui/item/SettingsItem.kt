@@ -20,6 +20,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+private val IconTintColor = Color(0xFF8C8F96)
+
 @Composable
 fun SettingsItem(
     iconRes: Int,
@@ -31,27 +33,28 @@ fun SettingsItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(end = 12.dp)
-            .padding(start = 16.dp)
-            .height(61.dp)
+            .height(64.dp)
+            .padding(start = 20.dp, end = 16.dp)
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
+
         Text(
             text = text,
-            fontSize = 16.sp,
+            fontSize = 17.sp,
             color = Color.Black,
             modifier = Modifier.weight(1f)
         )
-        Box(Modifier
-            .size(24.dp),
+
+        Box(
+            modifier = Modifier.size(28.dp),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 painter = painterResource(id = iconRes),
                 contentDescription = null,
-                tint = Color(0xFFAEAFB4),
+                tint = IconTintColor,
                 modifier = Modifier
                     .width(iconWidth)
                     .height(iconHeight)
