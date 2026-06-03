@@ -17,9 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,39 +28,49 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.practicum.myapplication.R
 
+private val SwitchTextColor = Color(0xFF1F2937)
+private val UncheckedTrackColor = Color(0xFFE5E7EB)
+
 @Composable
 fun ThemeSwitchItem(
     title: String = stringResource(R.string.dark),
     trackWidth: Dp,
     trackHeight: Dp,
     thumbSize: Dp,
+    isChecked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
     checkedColor: Color = MaterialTheme.colorScheme.primary,
-    uncheckedColor: Color = Color(0xFFD1D5DB)
+    uncheckedColor: Color = UncheckedTrackColor
 ) {
-    var isChecked by remember { mutableStateOf(false) }
-
     val maxOffset = trackWidth - thumbSize
+
     val thumbOffset by animateDpAsState(
         targetValue = if (isChecked) maxOffset else 0.dp,
+        label = "thumbOffset"
     )
+
     val trackTint by animateColorAsState(
-        targetValue = if (isChecked) checkedColor.copy(alpha = 0.7f) else uncheckedColor,
+        targetValue = if (isChecked) checkedColor.copy(alpha = 0.75f) else uncheckedColor,
+        label = "trackTint"
     )
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(61.dp)
-            .padding(horizontal = 16.dp)
-            .clickable { isChecked = !isChecked },
+            .height(64.dp)
+            .padding(start = 20.dp, end = 16.dp)
+            .clickable {
+                onCheckedChange(!isChecked)
+            },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = title,
-            fontSize = 16.sp,
-            color = Color.Black
+            fontSize = 17.sp,
+            color = SwitchTextColor
         )
+
         Box(
             modifier = Modifier
                 .width(trackWidth)
@@ -78,6 +85,7 @@ fun ThemeSwitchItem(
                     .height(trackHeight),
                 colorFilter = ColorFilter.tint(trackTint)
             )
+
             Image(
                 painter = painterResource(id = R.drawable.knob),
                 contentDescription = null,
